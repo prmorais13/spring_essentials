@@ -1,12 +1,12 @@
 package br.com.paulo.spring_essentials.controller;
 
+import br.com.paulo.spring_essentials.error.CustomErrorType;
 import br.com.paulo.spring_essentials.model.Student;
 import br.com.paulo.spring_essentials.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.html.HTMLHeadElement;
 
 @RestController
 @RequestMapping("students")
@@ -27,7 +27,10 @@ public class StudentEndPoint {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable Long id) {
-        return new ResponseEntity<>(this.studentService.byId(id), HttpStatus.OK);
+        Student student = his.studentService.byId(id);
+        if(student == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomErrorType("Student not found!"));
+        return ResponseEntity.status(HttpStatus.OK).body(student);
     }
 
     @PostMapping
