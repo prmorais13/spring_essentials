@@ -20,12 +20,13 @@ public class StudentService {
 
     //Busca todos
     public Iterable<Student> listAll(){
+
         return this.studentRepository.findAll();
     }
 
-    //Busca por nome
+    //Busca por nome ou parte dele
     public List<Student> studentByName(String name) {
-        return this.studentRepository.findByName(name);
+        return this.studentRepository.findByNameIgnoreCaseContaining(name);
     }
 
     //Busca por ID

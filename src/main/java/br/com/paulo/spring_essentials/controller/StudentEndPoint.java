@@ -20,14 +20,14 @@ public class StudentEndPoint {
         return new ResponseEntity<>(this.studentService.listAll(), HttpStatus.OK);
     }
 
-    @GetMapping("pornome/{name}")
+    @GetMapping("/findByName/{name}")
     public ResponseEntity<?> getStudentByName(@PathVariable String name) {
         return new ResponseEntity<>(this.studentService.studentByName(name), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable Long id) {
-        Student student = his.studentService.byId(id);
+        Student student = this.studentService.byId(id);
         if(student == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomErrorType("Student not found!"));
         return ResponseEntity.status(HttpStatus.OK).body(student);
@@ -45,6 +45,9 @@ public class StudentEndPoint {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> studenteDelete(@PathVariable Long id) {
+        Student student = this.studentService.byId(id);
+        if(student == null)
+            return new ResponseEntity<>(new CustomErrorType("Student not found!"), HttpStatus.NOT_FOUND);
         this.studentService.studenteDelete(id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
