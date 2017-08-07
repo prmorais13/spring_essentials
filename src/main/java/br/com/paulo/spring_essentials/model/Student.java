@@ -24,6 +24,7 @@ public class Student extends AbstractEntity{
         this.name = name;
     }
 
+    @NotBlank
     @Email
     public String getEmail() {
         return email;
